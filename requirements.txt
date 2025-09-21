@@ -5,3 +5,4 @@ setuptools
 # pymongo[srv]==3.6
 pymongo>=4.0
 certifi
+scikit-learn
