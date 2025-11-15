@@ -1,2 +1,7 @@
 env
 .env
+logs/
+*.pyc
+network_security/__pycache__/
+network_security/components/__pycache__/
+utils/main_utils/__pycache__/

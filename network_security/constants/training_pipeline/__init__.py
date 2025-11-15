@@ -7,7 +7,7 @@ import pandas as pd
 """
 Defining common constant variable  for training pipeline"""
 
-TARGET_CLOUMN = "Result"
+TARGET_COLUMN = "Result"
 PIPELINE_NAME: str = "network_security"
 ARTIFACT_NAME: str = "artifact"
 ARTIFACT_DIR: str = "Artifacts"
@@ -38,6 +38,7 @@ DATA_VALIDATION_VALID_DIR: str = "validated"
 DATA_VALIDATION_INVALID_DIR: str = "invalid"
 DATA_VALIDATION_DRIFT_REPORT_DIR: str = "drift_report"
 DATA_VALIDATION_DRIFT_REPORT_FILE_NAME: str = "report.yaml"
+PREPROCESSING_OBJECT_FILE_NAME: str = "preprocessing.pkl"
 
 
 """
@@ -51,6 +52,6 @@ DATA_TRANSFORMATION_TRANSFORMED_DATA_DIR: str = "transformed_object"
 #knn inputers to replace nan values
 DATA_TRANSFORMATION_IMPUTER_PARAMS: dict ={
     "missing_values":np.nan,
-    "n_neighbours":3,
+    "n_neighbors":3,
     "weights":"uniform",
 }
