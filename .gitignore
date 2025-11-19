@@ -7,3 +7,4 @@ network_security/components/__pycache__/
 utils/main_utils/__pycache__/
 Artifacts/
 mlruns/
+final_models/

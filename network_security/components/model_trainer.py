@@ -10,10 +10,11 @@ from network_security.entity.config_entity import ModelTrainerConfig
 from network_security.utils.ml_utils.model.estimator import NetworkModel
 from network_security.utils.main_utils.utils import save_object, save_numpy_array_data, load_object, load_numpy_array_data, evaluate_models
 from network_security.utils.ml_utils.metric.classification_metric import classification_score
-from mlflow import mlflow
+import mlflow
+import mlflow.sklearn
 
-import dagshub
-dagshub.init(repo_owner='V1629', repo_name='Network_Security', mlflow=True)
+# import dagshub
+# dagshub.init(repo_owner='V1629', repo_name='Network_Security', mlflow=True)
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import r2_score
@@ -33,16 +34,18 @@ class ModelTrainer:
         except Exception as e:
             raise NetworkSecurityException(e, sys)
         
-    def track_mlflow(self, best_model, classificationmetric):
-        with mlflow.start_run():
-            f1_score = classificationmetric.f1_score
-            precision_score = classificationmetric.precision_score
-            recall_score = classificationmetric.recall_score
+    # def track_mlflow(self, best_model, classificationmetric):
+    #     with mlflow.start_run():
+    #         f1_score = classificationmetric.f1_score
+    #         precision_score = classificationmetric.precision_score
+    #         recall_score = classificationmetric.recall_score
 
-            mlflow.log_metric("f1_score",f1_score)
-            mlflow.log_metric("precision:",precision_score)
-            mlflow.log_metric("recall_Score:",recall_score)
-            mlflow.sklearn.log_model(best_model,"model")
+    #         mlflow.log_metric("f1_score",f1_score)
+    #         mlflow.log_metric("precision:",precision_score)
+    #         mlflow.log_metric("recall_Score:",recall_score)
+    #         import joblib
+    #         joblib.dump(best_model, "model.pkl")
+    #         mlflow.log_artifact("model.pkl")
         
 
     def train_model(self,x_train,y_train,x_test,y_test):
@@ -92,7 +95,7 @@ class ModelTrainer:
 
         
         ##track the experiment with ML flow
-        self.track_mlflow(best_model,classification_test_metric)
+        # self.track_mlflow(best_model,classification_test_metric)
 
         
 
@@ -106,6 +109,7 @@ class ModelTrainer:
 
         Network_Model = NetworkModel(preprocessor = preprocessor, model= best_model)
         save_object(self.model_trainer_config.trained_model_file_path, obj=Network_Model)
+        save_object("final_models/model.pkl",best_model)
 
         ##Model trainer artifact
         model_trainer_artifact = ModelTrainerArtifact(trained_model_file_path=self.model_trainer_config.trained_model_file_path,
