@@ -12,6 +12,9 @@ from network_security.utils.main_utils.utils import save_object, save_numpy_arra
 from network_security.utils.ml_utils.metric.classification_metric import classification_score
 from mlflow import mlflow
 
+import dagshub
+dagshub.init(repo_owner='V1629', repo_name='Network_Security', mlflow=True)
+
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import r2_score
 from sklearn.neighbors import KNeighborsClassifier
@@ -84,14 +87,16 @@ class ModelTrainer:
         y_test_pred = best_model.predict(x_test)
         classification_test_metric = classification_score(y_true=y_test, y_pred = y_test_pred)
 
+        y_test_pred = best_model.predict(x_test)
+        classification_test_metric = classification_score(y_true=y_test, y_pred = y_test_pred)
+
         
         ##track the experiment with ML flow
         self.track_mlflow(best_model,classification_test_metric)
 
         
 
-        y_test_pred = best_model.predict(x_test)
-        classification_test_metric = classification_score(y_true=y_test, y_pred = y_test_pred)
+        
 
 
         preprocessor = load_object(file_path=self.data_transformation_artifact.transformed_object_file_path)
